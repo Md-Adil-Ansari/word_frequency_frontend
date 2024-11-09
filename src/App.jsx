@@ -1,11 +1,11 @@
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import DarkBackgroundImage from "./components/DarkBackground";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
   return (
     <div>
-      <DarkBackgroundImage />
+      <HomePage />
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

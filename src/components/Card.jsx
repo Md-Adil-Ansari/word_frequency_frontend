@@ -5,16 +5,19 @@ import { useSwipeable } from "react-swipeable";
 import { toast } from "react-toastify";
 
 // CarouselCard Component with Responsive Table and List Layout
-const CarouselCard = ({ words }) => {
+const CarouselCard = ({ words, currentSlide, wordsPerCard }) => {
   return (
     <div className="flex items-center justify-center h-auto bg-white rounded-lg shadow-lg shadow-orange-500 p-4 sm:p-6 mx-2 sm:mx-4 md:mx-6 lg:mx-8">
       {words.length ? (
-        <div className="w-full">
+        <div className="w-full shadow-lg rounded-lg p-4 shadow-orange-500">
           {/* Desktop/Table Layout */}
           <div className="hidden sm:block overflow-x-auto">
             <table className="min-w-full text-left">
               <thead>
                 <tr>
+                  <th className="text-gray-600 font-medium p-2 text-xs sm:text-sm">
+                    No.
+                  </th>
                   <th className="text-gray-600 font-medium p-2 text-xs sm:text-sm">
                     Word
                   </th>
@@ -26,6 +29,9 @@ const CarouselCard = ({ words }) => {
               <tbody>
                 {words.map((word, index) => (
                   <tr key={index} className="border-t">
+                    <td className="p-2 text-gray-700 text-xs sm:text-sm">
+                      {currentSlide * wordsPerCard + index + 1}
+                    </td>
                     <td className="p-2 text-gray-700 text-xs sm:text-sm">
                       {word.word}
                     </td>
@@ -42,6 +48,12 @@ const CarouselCard = ({ words }) => {
           <div className="block sm:hidden">
             {words.map((word, index) => (
               <div key={index} className="border-b py-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600 text-xs sm:text-sm">No:</span>
+                  <span className="text-gray-700 text-xs sm:text-sm">
+                    {currentSlide * wordsPerCard + index + 1}
+                  </span>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600 text-xs sm:text-sm">
                     Word:
@@ -63,9 +75,10 @@ const CarouselCard = ({ words }) => {
           </div>
         </div>
       ) : (
-        <div className="text-center text-gray-700 text-xs sm:text-sm">
+        <div className="text-center text-gray-700 text-xs sm:text-sm shadow-lg shadow-orange-500 p-4">
           <p>Please enter the URL and</p>
-          <p>hit the search button to see the top N words.</p>
+          <p>hit the search button </p>
+          <p>to see the top N words.</p>
         </div>
       )}
     </div>
@@ -149,13 +162,21 @@ const CardCarousel = ({ wordData }) => {
               key={index}
               className="min-w-full flex-shrink-0 flex justify-center"
             >
-              <CarouselCard words={words} />
+              <CarouselCard
+                words={words}
+                currentSlide={currentSlide}
+                wordsPerCard={wordsPerCard}
+              />
             </div>
           ))}
           {/* Show an empty card if there's no data */}
           {chunkedData.length === 0 && (
             <div className="min-w-full flex-shrink-0 flex justify-center">
-              <CarouselCard words={[]} />
+              <CarouselCard
+                words={[]}
+                currentSlide={0}
+                wordsPerCard={wordsPerCard}
+              />
             </div>
           )}
         </div>
@@ -164,7 +185,6 @@ const CardCarousel = ({ wordData }) => {
       {/* Navigation Buttons */}
       {chunkedData.length > 0 && (
         <>
-          {/* Previous Button */}
           <button
             onClick={prevSlide}
             disabled={currentSlide === 0}
@@ -180,7 +200,6 @@ const CardCarousel = ({ wordData }) => {
             />
           </button>
 
-          {/* Next Button */}
           <button
             onClick={nextSlide}
             disabled={currentSlide === chunkedData.length - 1}
