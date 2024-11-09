@@ -105,6 +105,11 @@ const CardCarousel = ({ wordData }) => {
     return () => window.removeEventListener("resize", updateWordsPerCard);
   }, []);
 
+  // Reset to the first slide when wordData changes
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [wordData]);
+
   // Split word data into chunks based on wordsPerCard
   const chunkedData = [];
   for (let i = 0; i < wordData.length; i += wordsPerCard) {
@@ -239,3 +244,4 @@ const CardCarousel = ({ wordData }) => {
 };
 
 export default CardCarousel;
+
