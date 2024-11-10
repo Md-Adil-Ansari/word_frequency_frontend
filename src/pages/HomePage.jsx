@@ -8,12 +8,12 @@ function DarkBackgroundImage() {
   const [wordData, setWordData] = useState([]);
 
   return (
+    <>
     <div
-      className="min-h-screen bg-cover"
+      className="min-h-screen bg-cover relative"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute inset-0 bg-black opacity-30 backdrop-blur-sm"></div>
-
+      <div className="fixed inset-0 bg-black opacity-30 backdrop-blur-sm"></div>
       <div className="relative z-10 text-white flex flex-col items-center justify-center">
         <SearchForm
           setWordData={setWordData}
@@ -25,6 +25,7 @@ function DarkBackgroundImage() {
         <Card wordData={wordData} />
       </div>
     </div>
+    </>
   );
 }
 
